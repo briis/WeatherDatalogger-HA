@@ -44,7 +44,7 @@
           "location": "Vejrudsigtslokation"
         },
         "data_description": {
-          "location": "Skal matche en [visualcrossing]-lokationsindstilling i WeatherDatalogger — standard er \"home\"."
+          "location": "Skal matche lokationsindstillingen for en vejrudsigtsudbyder i WeatherDatalogger ([visualcrossing] eller [openmeteo]) — standard er \"home\"."
         }
       },
       "provider": {
@@ -54,7 +54,7 @@
           "provider": "Vejrudsigtsudbyder"
         },
         "data_description": {
-          "provider": "Udbyder-slug fra WeatherDataloggers vejrudsigtstabeller — standard er \"visualcrossing\"."
+          "provider": "Udbyder-slug fra WeatherDataloggers vejrudsigtstabeller, f.eks. \"visualcrossing\" eller \"openmeteo\" — standard er \"visualcrossing\"."
         }
       }
     },
