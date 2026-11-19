@@ -5,7 +5,7 @@ station (Tempest/Davis/AirLink) actually supplies a given field is resolved
 by station_roles on the database side — this integration just reads
 whatever combined_realtime hands back.
 
-A second, smaller group of sensors reads Visual Crossing's forecast data
+A second, smaller group of sensors reads the forecast provider's data
 instead and is attached to the WeatherDataLogger Forecast device alongside
 the weather entity: source="forecast" reads forecast_current (today's
 observation, refreshed every poll), while source="forecast_daily_today"
@@ -68,11 +68,14 @@ from homeassistant.util import slugify
 
 from .const import (
     CONF_LOCATION,
+    CONF_PROVIDER,
     DEFAULT_LOCATION,
+    DEFAULT_PROVIDER,
     DOMAIN,
     MANUFACTURER,
     STATION_DEVICE_NAME,
     WEATHER_DEVICE_NAME,
+    provider_name,
 )
 from .coordinator import WeatherDataLoggerCoordinator
 
@@ -485,7 +488,7 @@ SENSOR_DESCRIPTIONS: tuple[WeatherDataLoggerSensorDescription, ...] = (
         source="stats",
         value_fn=_get("wind_speed_avg_10min"),
     ),
-    # Forecast (forecast_current — Visual Crossing)
+    # Forecast (forecast_current — configured provider)
     WeatherDataLoggerSensorDescription(
         key="forecast_description",
         translation_key="forecast_description",
@@ -610,7 +613,7 @@ class WeatherDataLoggerSensor(CoordinatorEntity[WeatherDataLoggerCoordinator], S
                 identifiers={(DOMAIN, f"{entry.entry_id}_weather")},
                 name=WEATHER_DEVICE_NAME,
                 manufacturer=MANUFACTURER,
-                model="Visual Crossing forecast",
+                model=f"{provider_name(entry.data.get(CONF_PROVIDER, DEFAULT_PROVIDER))} forecast",
             )
         else:
             self._attr_device_info = DeviceInfo(

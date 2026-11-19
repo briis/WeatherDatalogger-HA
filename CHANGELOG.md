@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.6] - 2026-11-19
+
+### Fixed
+
+- The weather entity's attribution and the *WeatherDataLogger Forecast* device's model were hardcoded to Visual Crossing, so an entry using the `openmeteo` provider still showed "Weather data provided by Visual Crossing" and "Visual Crossing forecast". Both now follow the configured provider: "Weather data by Open-Meteo.com" (the credit Open-Meteo's CC BY 4.0 licence asks for) and "Open-Meteo forecast". The device model updates when the entry reloads (e.g. after reconfiguring or restarting).
+- `manifest.json` version, which had stayed at 0.3.4 in the 0.3.5 release.
+
 ## [0.3.5] - 2026-11-19
 
 ### Changed

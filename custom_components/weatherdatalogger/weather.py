@@ -1,11 +1,12 @@
 """Weather platform for WeatherDataLogger. Current condition and visibility
-come from the Visual Crossing forecast tables (forecast_current) — the
+come from the forecast tables (forecast_current) for the configured provider
+(Visual Crossing or Open-Meteo) — the
 `weather_condition` column already holds an HA-recognized condition string
 (see db_writer.py / migrations/20260707_add_forecast_tables.sql), so no
 condition mapping is needed here. The other current-conditions values
 (temperature, pressure, humidity, wind, UV index) are read straight from
 combined_realtime instead, since that's the station's own live reading
-rather than Visual Crossing's periodically-fetched observation. Hourly and
+rather than the provider's periodically-fetched observation. Hourly and
 daily forecasts still come entirely from the forecast tables — combined_realtime
 has no forecast data.
 """
@@ -33,7 +34,17 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 from homeassistant.util import slugify
 
-from .const import CONF_LOCATION, DEFAULT_LOCATION, DOMAIN, MANUFACTURER, WEATHER_DEVICE_NAME
+from .const import (
+    CONF_LOCATION,
+    CONF_PROVIDER,
+    DEFAULT_LOCATION,
+    DEFAULT_PROVIDER,
+    DOMAIN,
+    MANUFACTURER,
+    WEATHER_DEVICE_NAME,
+    provider_attribution,
+    provider_name,
+)
 from .coordinator import WeatherDataLoggerCoordinator
 
 
@@ -90,13 +101,12 @@ def _apply_current_high_low(forecast: Forecast, current: dict | None) -> None:
 
 
 class WeatherDataLoggerWeather(CoordinatorEntity[WeatherDataLoggerCoordinator], WeatherEntity):
-    """Weather entity backed by the Visual Crossing forecast tables, with
+    """Weather entity backed by the forecast tables of the configured provider, with
     current conditions read from combined_realtime instead of forecast_current.
     """
 
     _attr_has_entity_name = True
     _attr_name = None
-    _attr_attribution = "Weather data provided by Visual Crossing"
     _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_native_pressure_unit = UnitOfPressure.HPA
     _attr_native_wind_speed_unit = UnitOfSpeed.METERS_PER_SECOND
@@ -108,6 +118,8 @@ class WeatherDataLoggerWeather(CoordinatorEntity[WeatherDataLoggerCoordinator], 
     def __init__(self, coordinator: WeatherDataLoggerCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_weather"
+        provider = entry.data.get(CONF_PROVIDER, DEFAULT_PROVIDER)
+        self._attr_attribution = provider_attribution(provider)
         # Suggest an English, location-scoped entity_id (see the matching
         # comment in sensor.py) so a second location/station configured on
         # the same HA instance gets its own weather.wdl_<location>_weather
@@ -118,7 +130,7 @@ class WeatherDataLoggerWeather(CoordinatorEntity[WeatherDataLoggerCoordinator], 
             identifiers={(DOMAIN, f"{entry.entry_id}_weather")},
             name=WEATHER_DEVICE_NAME,
             manufacturer=MANUFACTURER,
-            model="Visual Crossing forecast",
+            model=f"{provider_name(provider)} forecast",
         )
 
     @property
