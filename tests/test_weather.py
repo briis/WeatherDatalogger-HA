@@ -55,6 +55,25 @@ def test_attribution_credits_visual_crossing() -> None:
     entity = WeatherDataLoggerWeather(coordinator=None, entry=_FakeConfigEntry())
 
     assert entity.attribution == "Weather data provided by Visual Crossing"
+    assert entity.device_info["model"] == "Visual Crossing forecast"
+
+
+def test_attribution_and_model_follow_provider() -> None:
+    entry = _FakeConfigEntry()
+    entry.data = {"location": "home", "provider": "openmeteo"}
+    entity = WeatherDataLoggerWeather(coordinator=None, entry=entry)
+
+    assert entity.attribution == "Weather data by Open-Meteo.com"
+    assert entity.device_info["model"] == "Open-Meteo forecast"
+
+
+def test_unknown_provider_falls_back_to_slug() -> None:
+    entry = _FakeConfigEntry()
+    entry.data = {"location": "home", "provider": "pirateweather"}
+    entity = WeatherDataLoggerWeather(coordinator=None, entry=entry)
+
+    assert entity.attribution == "Weather data provided by pirateweather"
+    assert entity.device_info["model"] == "pirateweather forecast"
 
 
 def test_current_conditions_read_from_realtime_not_forecast() -> None:

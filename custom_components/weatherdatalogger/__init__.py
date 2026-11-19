@@ -1,6 +1,6 @@
 """The WeatherDataLogger integration — reads a weatherdatalogger MariaDB
 instance (see https://github.com/briis/WeatherDatalogger) and exposes it as
-a weather entity (Visual Crossing forecast) plus a set of station sensors
+a weather entity (forecast from the configured provider) plus a set of station sensors
 (live readings merged from whichever hardware station_roles assigns each
 role to).
 """
