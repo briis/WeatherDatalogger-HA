@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Config flow help texts (English and Danish) and the README now mention `openmeteo` alongside `visualcrossing` as a forecast provider, matching the Open-Meteo forecast service added in WeatherDatalogger 0.7.0. No code changes: the provider dropdown already lists every provider found in the database.
+
 ## [0.3.4] - 2026-07-22
 
 ### Added

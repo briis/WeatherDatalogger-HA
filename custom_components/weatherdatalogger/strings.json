@@ -44,7 +44,7 @@
           "location": "Forecast location"
         },
         "data_description": {
-          "location": "Matches a [visualcrossing] location setting in WeatherDatalogger — defaults to \"home\"."
+          "location": "Matches the location setting of a forecast provider in WeatherDatalogger ([visualcrossing] or [openmeteo]) — defaults to \"home\"."
         }
       },
       "provider": {
@@ -54,7 +54,7 @@
           "provider": "Forecast provider"
         },
         "data_description": {
-          "provider": "Provider slug from WeatherDatalogger's forecast tables — defaults to \"visualcrossing\"."
+          "provider": "Provider slug from WeatherDatalogger's forecast tables, e.g. \"visualcrossing\" or \"openmeteo\" — defaults to \"visualcrossing\"."
         }
       }
     },

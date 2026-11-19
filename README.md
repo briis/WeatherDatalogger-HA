@@ -144,7 +144,7 @@ Settings → Devices & Services → Add Integration → **WeatherDataLogger**, t
 Connectivity and credentials are validated against `combined_realtime` before moving on. Two more steps then ask you to pick:
 
 - **Forecast location** — a dropdown pre-populated with whichever location slugs already have forecast rows in the database (just `home` for most setups), defaulting to `home`.
-- **Forecast provider** — a dropdown scoped to that location, pre-populated with whichever provider slugs already have forecast rows there (just `visualcrossing` for most setups), defaulting to `visualcrossing`. Only relevant once more than one forecast provider is ever configured for the same location upstream.
+- **Forecast provider** — a dropdown scoped to that location, pre-populated with whichever provider slugs already have forecast rows there (`visualcrossing` and/or `openmeteo`), defaulting to `visualcrossing`. Pick `openmeteo` to use the free Open-Meteo forecast (WeatherDatalogger 0.7.0+). Only relevant when more than one forecast provider runs for the same location upstream.
 
 Both dropdowns also accept typed input, for a location or provider that hasn't written any forecast rows yet if you're setting one up ahead of time.
 
